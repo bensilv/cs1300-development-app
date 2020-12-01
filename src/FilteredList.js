@@ -24,18 +24,22 @@ class FilteredList extends React.Component {
         this.setCartPrice();
     }
 
+    // Makes cart by creating a dictionary from item name to quantity for each of the items passed in, with quantity
+    // initialized to 0.
     makeCart = () => {
         let cart = {}
         this.props.list.forEach(item => cart[item.name] = 0)
         return cart
     }
 
+    // Sets cart price by multiplying the quantity of each item in the cart by its price.
     setCartPrice = () => {
         this.setState({
             cartPrice: this.props.list.reduce((acc, cur) => acc + (cur.price * this.state.cart[cur.name]), 0)
         })
     }
 
+    // handles adding to the cart by increasing the quantity of that item in the cart.
     addToCart = (item) => {
         const cart = this.state.cart;
         cart[item] += 1
@@ -43,6 +47,7 @@ class FilteredList extends React.Component {
         this.setCartPrice()
     }
 
+    // handles removing from the cart by decreasing the quantity of that item in the cart.
     removeFromCart = (item) => {
         const cart = this.state.cart;
         cart[item] -= 1
@@ -50,33 +55,40 @@ class FilteredList extends React.Component {
         this.setCartPrice()
     }
 
+    // handles setting a new brand when user changes the brand
     onSelectBrand = event => {
         this.setState({
             brand: event
         })
     };
 
+    // handles setting a new type when user changes the type
     onSelectType = event => {
         this.setState({
             type: event
         })
     };
 
+    // handles setting a new sort when user changes the sort
     onSelectSort = event => {
         this.setState({
             sort: event
         })
     };
 
+    // method responsible for filtering the cameras, handles multiple filters together
     matchesFilters = item => {
+        // and statement used to combine both filters
         return (this.state.brand === "All" || this.state.brand === item.brand)
             && (this.state.type === "All" || this.state.type === item.type)
     }
 
+    // method used for sorting cameras
     sortItems = items => {
         if (this.state.sort === "Default") {
             return items
         } else if (this.state.sort === "Low to High") {
+            // sorts via sort method with comparator based on price
             return items.sort((a, b) => a.price - b.price)
         } else {
             return items.sort((a, b) => b.price - a.price)
@@ -125,12 +137,14 @@ class FilteredList extends React.Component {
                         </Row>
                         <Row>
                             <Col>
-                                <DisplayList list={this.sortItems(this.props.list.filter(this.matchesFilters))} addToCart={this.addToCart} />
+                                <DisplayList list={this.sortItems(this.props.list.filter(this.matchesFilters))}
+                                             addToCart={this.addToCart} />
                             </Col>
                         </Row>
                     </Col>
                     <Col sm="4">
-                        <Cart cart={this.state.cart} cartPrice={this.state.cartPrice} addToCart={this.addToCart} removeFromCart={this.removeFromCart}/>
+                        <Cart cart={this.state.cart} cartPrice={this.state.cartPrice}
+                              addToCart={this.addToCart} removeFromCart={this.removeFromCart}/>
                     </Col>
                 </Row>
 

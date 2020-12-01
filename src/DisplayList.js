@@ -17,6 +17,7 @@ class DisplayList extends React.Component {
         return (
             <div>
                 <Row>
+                    {/*Use map to make a card for each item*/}
                     {this.props.list.map(item =>
                         <Col sm="6">
                             <Card className="prod-card my-3">
@@ -35,7 +36,9 @@ class DisplayList extends React.Component {
                                         </Col>
                                     </Row>
                                     <Row  className="justify-content-center py-1">
-                                        <Button variant="primary" onClick={() => this.props.addToCart(item.name)}>Add to Cart</Button>
+                                        {/*Used passed in addToCart() to add items to the cart*/}
+                                        <Button variant="primary"
+                                                onClick={() => this.props.addToCart(item.name)}>Add to Cart</Button>
                                     </Row>
                                 </Card.Body>
                             </Card>
